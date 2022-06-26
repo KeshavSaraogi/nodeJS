@@ -43,5 +43,6 @@ function userLogin(req,res){
 module.exports = {
     getSignup: getSignup,
     getLogin: getLogin,
-    signup: signup
+    signup: signup,
+    userLogin: userLogin
 };

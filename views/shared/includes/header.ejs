@@ -1,4 +1,12 @@
 <header>
     <div><a href="">WDE</a></div>
-    <nav></nav>
+    <nav>
+        <ul>
+            <%if (locals.isAuthenticated) {%>
+                <li>
+                    <Button>Logout</Button>
+                </li>
+            <%}%>
+        </ul>
+    </nav>
 </header>
