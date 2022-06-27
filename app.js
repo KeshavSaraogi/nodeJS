@@ -9,7 +9,7 @@ const productsRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
 const addcsrfTokenMiddleware = require('./middleware/csrf-token');
 const errorHandlerMiddleWare = require('./middleware/error-handler');
-const checkAuthenticationMiddleware = require('./middleware/check-authentication');
+const checkAuthenticationMiddleware = require('./middleware/check-auth');
 const createSessionConfig = require('./config/session');
 
 const app = express();

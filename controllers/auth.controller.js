@@ -21,9 +21,9 @@ function getLogin(req,res){
     res.render('customer/auth/login');
 }
 
-function userLogin(req,res){
+async function userLogin(req,res){
     const user = new User(req.body.email,req.body.password);
-    const existingUser = await compareEmail();
+    const existingUser = await user.compareEmail();
 
     if(!existingUser){
         res.redirect('/login');
