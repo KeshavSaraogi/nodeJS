@@ -30,6 +30,14 @@ class User{
     comparePassword(hashedPassword){
         return bcrypt.compare(this.password, hashedPassword);
     }
+
+    async existsAlready(){
+        const existingUser = await this.compareEmail();
+        if(existingUser){
+            return true;
+        }
+        return false;
+    }
 }
 
 module.exports = User;
