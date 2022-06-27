@@ -4,15 +4,29 @@ const validation = require('../utilities/validation');
 const sessionFlash =  require('../utilities/session-flash')
 
 function getSignup(req,res){
-    res.render('customer/auth/signup');
+    let sessionData = sessionFlash.getSessionData(req);
+
+    if(!sessionData){
+        sessionData = {
+            email: '',
+            confirmEmial: '',
+            password: '',
+            fullname: '',
+            street: '',
+            postal: '',
+            city: ''
+        };
+    }
+    res.render('customer/auth/signup', {inputData: sessionData});
 }
 
 async function signup(req,res, next){
 
     const enteredData = {
         email: req.body.email, 
+        confirmEmail: req.body['confirm-email'],
         password: req.body.password, 
-        name: req.body.fullname, 
+        fullname: req.body.fullname, 
         street: req.body.street, 
         postalCode: req.body.postal, 
         city: req.body.city
@@ -63,7 +77,16 @@ async function signup(req,res, next){
 }    
 
 function getLogin(req,res){
-    res.render('customer/auth/login');
+    let sessionData = sessionFlash.getSessionData(req);
+    
+    if(!sessionData){
+        sessionData = {
+            email: '',
+            password: ''
+        }
+    }
+
+    res.render('customer/auth/login', {inputData: sessionData});
 }
 
 async function userLogin(req,res, next){
@@ -98,7 +121,7 @@ async function userLogin(req,res, next){
         });
         return;
     }
-    
+
     authentication.createUserSession(req,existingUser, function(){
         res.redirect('/');
     });
