@@ -13,21 +13,24 @@ const checkAuthenticationMiddleware = require('./middleware/check-auth');
 const createSessionConfig = require('./config/session');
 
 const app = express();
-const sessionConfig = createSessionConfig();
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:false}));
+
+const sessionConfig = createSessionConfig();
 app.use(expressSession(sessionConfig));
 
 app.use(csrf());
 app.use(addcsrfTokenMiddleware);
 app.use(checkAuthenticationMiddleware);
 
-app.use(authRoutes);
 app.use(baseRoutes);
+app.use(authRoutes);
+
 app.use(productsRoutes);
+
 app.use(errorHandlerMiddleWare);
 
 db.connectToDatabase().then(function(){
