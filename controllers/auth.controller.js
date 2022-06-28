@@ -71,7 +71,7 @@ async function signup(req,res, next){
         
         await user.signup();
     } catch(err){
-        next(error);
+        next(err);
         return;
     };
     res.redirect('/login');

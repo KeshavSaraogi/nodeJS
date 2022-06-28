@@ -18,7 +18,7 @@ function userDetailsAreValid(email,password,name,street,postal,city){
     );
 }
 
-function emailIsConfirmed(email){
+function emailIsConfirmed(email, confirmEmail){
     return email === confirmEmail;
 }
 

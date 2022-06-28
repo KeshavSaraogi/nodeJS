@@ -24,7 +24,7 @@ class User{
     };
 
     compareEmail(){
-        return db.getDB.collection('users').findOne({email:this.email})
+        return db.getDB().collection('users').findOne({email:this.email})
     }
 
     comparePassword(hashedPassword){
