@@ -28,13 +28,12 @@ app.use(checkAuthenticationMiddleware);
 
 app.use(baseRoutes);
 app.use(authRoutes);
-
 app.use(productsRoutes);
 
 app.use(errorHandlerMiddleWare);
 
 db.connectToDatabase().then(function(){
     app.listen(3000);
-}).catch(function(error){
+    }).catch(function(error){
     console.log('Failed To Connect to Database');
 });

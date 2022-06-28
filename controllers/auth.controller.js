@@ -42,8 +42,9 @@ async function signup(req,res, next){
         {
             errorMessage: 'Please Check Your Input --> Invalid Credentials',...enteredData
         }, 
-        function(){});
-        res.redirect('/signup');
+        function(){
+            res.redirect('/signup');
+        });
         return;
     }
 
@@ -83,7 +84,7 @@ function getLogin(req,res){
         sessionData = {
             email: '',
             password: ''
-        }
+        };
     }
 
     res.render('customer/auth/login', {inputData: sessionData});
@@ -94,8 +95,8 @@ async function userLogin(req,res, next){
     let existingUser;
     try{
         existingUser = await user.compareEmail();
-    }
-
+    } 
+    
     catch(error){
         next(error);
         return;
@@ -105,15 +106,15 @@ async function userLogin(req,res, next){
         errorMessage: 'Invalid Credentials -- Please Double Check Your Credentials', 
         email: user.email,
         password: user.password
-    }
+    };
     
     if(!existingUser){
         sessionFlash.flashDataToSession(req, sessionErrorData, function(){
             res.redirect('/login');
         });
-        
         return;
     }
+    
     const matchingPasswords = await user.comparePassword(existingUser.password);
     if(!matchingPasswords){
         sessionFlash.flashDataToSession(req,sessionErrorData, function(){
