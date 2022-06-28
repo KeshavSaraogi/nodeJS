@@ -5,6 +5,7 @@ function checkAuthentication(req,res,next){
     }
     res.locals.uid = uid;
     res.locals.isAuthenticated = true;
+    res.locals.isAdmin = req.session.isAdmin;
     next();
 }
 
