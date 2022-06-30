@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
+app.use(express.static('/products/assets','product-data'));
 app.use(express.urlencoded({extended:false}));
 
 const sessionConfig = createSessionConfig();
