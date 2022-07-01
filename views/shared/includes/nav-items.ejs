@@ -1,7 +1,7 @@
 <ul class="nav-items">
     <%if (!locals.isAdmin) {%>
         <li><a href="/">Shop</a></li>
-        <li><a href="/cart">CART</a></li>
+        <li><a href="/cart">CART <span class="badge"><%= locals.cart.totalQuantity%></span></a></li>
     <%}%>
 
     <%if (locals.isAuthenticated && !locals.isAdmin) {%>
