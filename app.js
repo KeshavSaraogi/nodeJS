@@ -15,6 +15,7 @@ const checkAuthenticationMiddleware = require('./middleware/check-auth');
 const protectRoutesMiddleware = require('./middleware/protect-routes');
 const cartMiddleware = require('./middleware/cart');
 const createSessionConfig = require('./config/session');
+const orderRoutes = require('./routes/order.routes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -38,7 +39,7 @@ app.use(authRoutes);
 app.use(productsRoutes);
 app.use('./cart',cartRoutes);
 app.use(protectRoutesMiddleware);
-
+app.use('/orders',orderRoutes);
 app.use('/admin', adminRoutes);
 
 app.use(errorHandlerMiddleWare);
