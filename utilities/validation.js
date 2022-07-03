@@ -1,5 +1,5 @@
 function isEmpty(value){
-    return (!value || value.trim() === '');
+    return !value || value.trim() === '';
 }    
 
 function userCredentialsAreValid(email,password){

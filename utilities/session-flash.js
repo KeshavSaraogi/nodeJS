@@ -1,7 +1,7 @@
 function getSessionData(req){
     const sessionData = req.session.flashedData;
+    
     req.session.flashData = null;
-
     return sessionData;
 }
 
@@ -13,4 +13,4 @@ function flashDataToSession(req, data, action){
 module.exports = {
     getSessionData: getSessionData,
     flashDataToSession: flashDataToSession
-}
+};

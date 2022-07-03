@@ -21,10 +21,12 @@ function addToCart(){
 
     catch(error){
         alert('Something Went Wrong!');
+        return;
     }
     
     if(!response.ok){
         alert('Something Went Wrong!');
+        return;
     }
 
     const responseData = await response.json();

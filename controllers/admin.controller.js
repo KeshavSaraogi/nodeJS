@@ -101,7 +101,7 @@ async function updateOrder(req, res, next){
 }
 
 module.exports = {
-    getNewProducts: getProducts,
+    getProducts: getProducts,
     getNewProduct: getNewProduct,
     createNewProduct: createNewProduct,
     getUpdateProduct: getUpdateProduct,

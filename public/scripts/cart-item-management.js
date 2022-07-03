@@ -1,6 +1,6 @@
-const cartItemUpdateFormelements = document.querySelectorAll('.cart-item-management');
 const cartTotalPriceElement = document.getElementById('cart-total-price');
-const cartbadge = document.querySelector('.nav-items .badge');
+const cartItemUpdateFormElements = document.querySelectorAll('.cart-item-management');
+const cartBadge = document.querySelector('.nav-items .badge');
 
 async function updateCartItem(event){
     event.preventDefault();
@@ -18,14 +18,13 @@ async function updateCartItem(event){
             body: JSON.stringify({
                 productId: productId,
                 quantity: quantity,
-                _csrf: csrfToken
+                _csrf: csrfToken,
             }),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
         });
-    }
-    catch(error){
+    } catch(error){
         alert('Something Went Wrong!');
         return;
     }
@@ -34,6 +33,7 @@ async function updateCartItem(event){
         alert('Something Went Wrong!');
         return;
     }
+
     const responseData  = await response.json();
 
     if(responseData.updateCartData.updatedItemPrice === 0){
@@ -43,11 +43,10 @@ async function updateCartItem(event){
         cartItemTotalPriceElement.textContent = responseData.updatedCartData.updatedCartItem.updatedItemPrice.toFixed(2);
     }
 
-   
     cartTotalPriceElement.textContent = responseData.updatedCartData.newTotalPrice.toFixed(2);
-    cartBadge.textContent = reponseData.updatedCartData.newTotalQuantity;
+    cartBadge.textContent = responseData.updatedCartData.newTotalQuantity;
 }
 
-for (const formElement of cartItemUpdateFormelements) {
+for (const formElement of cartItemUpdateFormElements) {
     formElement.addEventListener('submit', updateCartItem);
 }
