@@ -1,8 +1,47 @@
+const Product = require('./product.model');
+
 class Cart{
     constructor(items = [], totalQuantity= 0, totalPrice=0){
         this.items = items;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
+    }
+
+    async updatePrice(){
+        const productIds = this.item.map(function (item){
+            return item.product.id;
+        });
+
+        const products = await Product.findMultiple(productIds);
+        const deleteableCartItemProductIds = [];
+
+        for (const cartItem of this.items){
+            const product = products.find(function (prod){
+                return prod.id === cartItem.product.id;
+            });
+
+            if(!product){
+                deleteableCartItemProductIds.push(cartItem.product.id);
+                continue;
+            }
+
+            cartItem.product = product;
+            cartItem.totalPrice = cartItem.quantity * cartItem.product.price;
+        }
+
+        if(deleteableCartItemProductIds.length > 0){
+            this.items = this.items.filter(function (item){
+                return deleteableCartItemProductIds.indexOf(item.product.id) < 0;
+            });
+        }
+
+        this.totalQuantity = 0;
+        this.totalPrice = 0;
+        
+        for (const item of this.items){
+            this.totalQuantity += item.totalQuantity;
+            this.totalPrice += item.totalPrice;
+        }
     }
 
     addItem(product){
@@ -11,6 +50,7 @@ class Cart{
             quantity: 1,
             totalPrice: product.price
         };
+
         for(let i= 0; i< this.items.length; i++){
             const item = this.items[i];
             if(item.product.id === product.id){
@@ -23,7 +63,8 @@ class Cart{
                 return;
             }
         }
-        this.items.push(product);
+
+        this.items.push(cartItem);
         this.totalQuantity++;
         this.totalPrice += product.price;
     }
@@ -32,16 +73,19 @@ class Cart{
 
         for(let i= 0; i< this.items.length; i++){
             const item = this.items[i];
+
             if(item.product.id === productId && newQuantity > 0){
                 const cartItem = {...item};
                 const quantityChange = newQuantity - item.quantity;
 
                 cartItem.quantity = newQuantity;
-                cartItem.totalPrice = newQuantity * product.price;
+                cartItem.totalPrice = newQuantity * item.product.price;
+
                 this.items[i] = cartItem;
-                
+
                 this.totalQuantity = this.totalQuantity + quantityChange;
-                this.totalPrice += quantityChange * product.price;
+                this.totalPrice += quantityChange * item.product.price;
+
                 return {updatedItemPrice: cartItem.totalPrice};
             }
             else if(item.product.id === productId && newQuantity <= 0){

@@ -29,22 +29,24 @@ async function signup(req,res, next){
         fullname: req.body.fullname, 
         street: req.body.street, 
         postalCode: req.body.postal, 
-        city: req.body.city
-    }
+        city: req.body.city,
+    };
 
     if(!validation.userDetailsAreValid(
-        req.body.email, req.body.password, 
-        req.body.fullname, req.body.street, 
-        req.body.postal, req.body.city) ||
-        !validation.emailIsConfirmed(req.body.email, req.body['confirm-email']))
-    {
+            req.body.email, req.body.password, 
+            req.body.fullname, req.body.street, 
+            req.body.postal, req.body.city) || 
+            !validation.emailIsConfirmed(req.body.email, req.body['confirm-email']))
+        {
         sessionFlash.flashDataToSession(req, 
         {
-            errorMessage: 'Please Check Your Input --> Invalid Credentials',...enteredData
+            errorMessage: 'Please Check Your Input --> Invalid Credentials',
+            ...enteredData
         }, 
-        function(){
-            res.redirect('/signup');
-        });
+            function(){
+                res.redirect('/signup');
+            }
+        );
         return;
     }
 
@@ -62,7 +64,8 @@ async function signup(req,res, next){
 
         if(existsAlready){
             sessionFlash.flashDataToSession(req, {
-                errorMessage: 'User Exists Already! Try Logging In Instead',...enteredData,
+                errorMessage: 'User Exists Already! Try Logging In Instead',
+                ...enteredData,
             }, function(){
                 res.redirect('/signup');
             });
@@ -105,7 +108,7 @@ async function userLogin(req,res, next){
     const sessionErrorData = {
         errorMessage: 'Invalid Credentials -- Please Double Check Your Credentials', 
         email: user.email,
-        password: user.password
+        password: user.password,
     };
     
     if(!existingUser){

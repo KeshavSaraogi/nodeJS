@@ -35,7 +35,18 @@ class Product{
     }
 
     static async findAll(){
-        const prouct = await db.getDB().collection('products').find().toArray();
+        const products = await db.getDB().collection('products').find().toArray();
+        return products.map(function(productDocument){
+            return new Product(productDocument);
+        });
+    }
+
+    static async findMultiple(ids){
+        const productIds = ids.map(function(id){
+            return new mongodb.ObjectId(id);
+        });
+
+        const products = await db.getDB().collection('products').find({_id: {$in: productIds}}).toArray();
         return products.map(function(productDocument){
             return new Product(productDocument);
         });

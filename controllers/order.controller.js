@@ -2,8 +2,16 @@ const Order = require('../models/order.model');
 const User = require('../models/user.model');
 const stripe = require('stripe')('sk_test_51LH4H5SBju0Uk5MfFFPdSEnLnzfRHCUEQ7gmEN88ca3qvJ0enjMkkf8Riuo2jxasAXZxybbb9tzsqHIohVDjOAmG00YkDg6FYL');
 
-function getOrder(req, res){
-    res.redirect('customer/orders/all-orders');
+function getOrders(req, res){
+    try{
+        const orders = await Order.findAllForUser(res.locals.uid);
+        res.redirect('customer/orders/all-orders', {
+            orders: orders,
+        });
+    }
+    catch(error){
+        next(error);
+    }
 }
 
 function addOrder(req, res, next){
@@ -14,15 +22,18 @@ function addOrder(req, res, next){
         userDocument = await User.findById(res.locals.uid);
     }
     catch(error){
-        return next(error);
+        next(error);
+        return;
     }
    
     const order = new Order(cart, userDocument);
+    
     try{
         order.save();
     } 
     catch(error){
-        return next(error);
+        next(error);
+        return;
     }
 
     req.sessions.cart = null;
@@ -59,7 +70,7 @@ function getFailure(req, res){
 
 module.exports = {
     addOrder: addOrder,
-    getOrder: getOrder,
+    getOrders: getOrders,
     getSuccess: getSuccess,
     getFailure: getFailure
 };
