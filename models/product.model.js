@@ -17,14 +17,14 @@ class Product{
     }
 
     static async findById(productId){
-        let productId;
+        let prodId;
         try{
-            productId = new mongodb.ObjectId(productId);
+            prodId = new mongodb.ObjectId(productId);
         } catch(error){
             error.code = 404;
             throw error;
         }
-        const product = await db.getDB().collection('products').findOne({_id: productId});
+        const product = await db.getDB().collection('products').findOne({_id: prodId});
 
         if(!product){
             const error = new Error('Could Not Find Object With The Provided Id');

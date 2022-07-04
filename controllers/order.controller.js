@@ -2,7 +2,7 @@ const Order = require('../models/order.model');
 const User = require('../models/user.model');
 const stripe = require('stripe')('sk_test_51LH4H5SBju0Uk5MfFFPdSEnLnzfRHCUEQ7gmEN88ca3qvJ0enjMkkf8Riuo2jxasAXZxybbb9tzsqHIohVDjOAmG00YkDg6FYL');
 
-function getOrders(req, res){
+async function getOrders(req, res){
     try{
         const orders = await Order.findAllForUser(res.locals.uid);
         res.redirect('customer/orders/all-orders', {
@@ -14,7 +14,7 @@ function getOrders(req, res){
     }
 }
 
-function addOrder(req, res, next){
+async function addOrder(req, res, next){
     const cart = res.locals.cart;
     
     let userDocument;
@@ -39,7 +39,7 @@ function addOrder(req, res, next){
     req.sessions.cart = null;
 
     const session = await stripe.checkout.sessions.create({
-        payment_method_types = ['card'],
+        payment_method_types: ['card'],
         line_items: cart.items.map(function(item){
             return {
                 price_data: {

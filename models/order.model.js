@@ -56,8 +56,8 @@ class Order{
 
         } else{
             const orderDocument = {
-                userData = this.userData,
-                productData = this.productData,
+                userData: this.userData,
+                productData: this.productData,
                 date: new Date(),
                 status: this.status
             };

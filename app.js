@@ -28,8 +28,14 @@ app.use('/products/assets',express.static('product-data'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
-const sessionConfig = createSessionConfig();
-app.use(expressSession(sessionConfig));
+//const sessionConfig = createSessionConfig();
+//app.use(expressSession(sessionConfig));
+
+app.use(expressSession({
+    secret: 'super-secret',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(csrf());
 app.use(cartMiddleware);

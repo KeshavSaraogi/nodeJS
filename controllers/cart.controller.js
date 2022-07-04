@@ -4,7 +4,7 @@ function getCart(req, res){
     res.render('customer/cart/cart');
 }
 
-function addCartItem(req, res, next){
+async function addCartItem(req, res, next){
     let product;
     try{
         product = await Product.findById(req.body.productId);
